@@ -37,7 +37,7 @@ loadJSON(function(response) {
         $stateDropDown.append('<option value="' + item[0] + '">' + item[1] + '</option>');
     });
 
-
+    // Return senator/representative term information based on state selected
     $stateDropDown.change(function() {
         var selectedstate = this.value;
         //filter based on selected state.
