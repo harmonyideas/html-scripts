@@ -48,9 +48,7 @@ loadJSON(function(response) {
 
     //To update the table element with selected state and display latest data
     updateTable = function(collection) {
-        var $container = $("#details").find("tbody");
         table.clear();
-        $container.empty();
         for (var i = 0; i < collection.length; i++) {
             table.row.add([collection[i].name.official_full,
                 collection[i].terms[collection[i].terms.length - 1].start,
