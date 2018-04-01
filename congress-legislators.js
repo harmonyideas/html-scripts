@@ -47,7 +47,7 @@ loadJSON(function(response) {
         updateTable(filterArray);
     });
 })
-//To update the table element with selected state and display latest data
+// Update the datatable element with array data
 updateTable = function(collection) {
     table.clear();
     for (var i = 0; i < collection.length; i++) {
