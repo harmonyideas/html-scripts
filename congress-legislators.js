@@ -37,6 +37,7 @@ loadJSON(function(response) {
         $stateDropDown.append('<option value="' + item[0] + '">' + item[1] + '</option>');
     });
 
+
     $stateDropDown.change(function() {
         var selectedstate = this.value;
         //filter based on selected state.
@@ -45,17 +46,16 @@ loadJSON(function(response) {
         });
         updateTable(filterArray);
     });
-
-    //To update the table element with selected state and display latest data
-    updateTable = function(collection) {
-        table.clear();
-        for (var i = 0; i < collection.length; i++) {
-            table.row.add([collection[i].name.official_full,
-                collection[i].terms[collection[i].terms.length - 1].start,
-                collection[i].terms[collection[i].terms.length - 1].end,
-                collection[i].terms[collection[i].terms.length - 1].type,
-                collection[i].terms[collection[i].terms.length - 1].party
-            ]).draw(true);
-        }
-    }
 })
+//To update the table element with selected state and display latest data
+updateTable = function(collection) {
+    table.clear();
+    for (var i = 0; i < collection.length; i++) {
+        table.row.add([collection[i].name.official_full,
+            collection[i].terms[collection[i].terms.length - 1].start,
+            collection[i].terms[collection[i].terms.length - 1].end,
+            collection[i].terms[collection[i].terms.length - 1].type,
+            collection[i].terms[collection[i].terms.length - 1].party
+        ]).draw(true);
+    }
+}
