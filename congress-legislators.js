@@ -17,7 +17,7 @@ function loadJSON(callback) {
 loadJSON(function(response) {
     dataArray = JSON.parse(response);
     var statesArray = [];
-    var datafilterArray = [];
+    var filterArray = [];
 
     // Create array to hold both abbreviated and full state names
     $.each(dataArray[0].states, function(i, item) {
@@ -40,10 +40,10 @@ loadJSON(function(response) {
     $stateDropDown.change(function() {
         var selectedstate = this.value;
         //filter based on selected state.
-        datafilterArray = jQuery.grep(dataArray, function(item, i) {
+        filterArray = jQuery.grep(dataArray, function(item, i) {
             return item.terms[0].state == selectedstate;
         });
-        updateTable(datafilterArray);
+        updateTable(filterArray);
     });
 
     //To update the table element with selected state and display latest data
