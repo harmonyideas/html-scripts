@@ -1,5 +1,5 @@
 # html-scripts
-Short examples for learning web programming
+Short web programming examples for learning
 
 FileName      | Description
 ------------- | -------------  
