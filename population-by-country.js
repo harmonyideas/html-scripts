@@ -22,7 +22,6 @@ function loadJSON(callback) {
 
 loadJSON(function(response) {
     dataArray = JSON.parse(response);
-    //console.log(dataArray);
     for (var i = 0; i < dataArray.length; i++) {
         table.row.add([dataArray[i].Rank,
             dataArray[i].country,
