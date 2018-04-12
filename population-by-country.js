@@ -1,8 +1,9 @@
 // Global JSON array
 var dataArray = [];
+// Setup DataTable and sort by Rank
 var table = $("#details").DataTable({
     "order": [
-        [1, "desc"]
+        [0, "asc"]
     ]
 });
 
@@ -23,8 +24,9 @@ loadJSON(function(response) {
     dataArray = JSON.parse(response);
     //console.log(dataArray);
     for (var i = 0; i < dataArray.length; i++) {
-        table.row.add([dataArray[i].country,
-            dataArray[i].population,
+        table.row.add([dataArray[i].Rank,
+            dataArray[i].country,
+            dataArray[i].population
         ]).draw(true);
     }
 })
