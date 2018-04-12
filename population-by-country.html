@@ -14,7 +14,6 @@
 
 <body>
     <br />
-    </form>
     <table id="details" class="table table-striped table-hover">
         <thead class="thead-dark">
             <tr>
@@ -23,12 +22,13 @@
                 <th scope="col">Population</th>
             </tr>
         </thead>
-        <tbody></tbody>
+        <tbody>
+            <script>
+            $(function() {
+                $("#details").DataTable();
+            });
+            </script>
+        </tbody>
     </table>
-    <script>
-    $(function() {
-        $("#details").DataTable();
-    });
-    </script>
 
 </html>
