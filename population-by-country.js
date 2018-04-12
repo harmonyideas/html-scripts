@@ -1,0 +1,30 @@
+// Global JSON array
+var dataArray = [];
+var table = $("#details").DataTable({
+    "order": [
+        [1, "desc"]
+    ]
+});
+
+function loadJSON(callback) {
+    var xobj = new XMLHttpRequest();
+    xobj.overrideMimeType("application/json");
+    xobj.open('GET', 'data/population-by-country.json', true);
+    xobj.onreadystatechange = function() {
+        if (xobj.readyState == 4 && xobj.status == "200") {
+            // Required use of an anonymous callback as .open will NOT return a value but simply returns undefined in asynchronous mode
+            callback(xobj.responseText);
+        }
+    };
+    xobj.send(null);
+}
+
+loadJSON(function(response) {
+    dataArray = JSON.parse(response);
+    //console.log(dataArray);
+    for (var i = 0; i < dataArray.length; i++) {
+        table.row.add([dataArray[i].country,
+            dataArray[i].population,
+        ]).draw(true);
+    }
+})
