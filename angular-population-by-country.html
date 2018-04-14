@@ -15,14 +15,12 @@
     </style>
     <!-- JS -->
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/2.5.0/ui-bootstrap-tpls.min.js"></script>
     <script src="angular-population-by-country.js"></script>
 </head>
 
 <body>
     <div class="container" ng-app="App" ng-controller="MyCtrl">
-        <div class="alert alert-info">
-            <p></p>
-        </div>
         <form>
             <div class="form-group">
                 <div class="input-group">
@@ -47,13 +45,13 @@
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="item in data | filter:searchCountry | orderBy:sortType:sortReverse">
+                <tr ng-repeat="item in filteredList | filter:searchCountry | orderBy:sortType:sortReverse">
                     <td>{{ item.country }}</td>
                     <td>{{ item.population|number}}</td>
                 </tr>
             </tbody>
         </table>
-  </div>
+        <ul uib-pagination total-items="totalItems" ng-model="currentPage" items-per-page="numPerPage" ng-change="pageChanged()"></ul>
 </body>
 
 </html>
