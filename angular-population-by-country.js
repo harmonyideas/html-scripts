@@ -3,10 +3,9 @@ var App = angular.module('App', ['ui.bootstrap']);
 App.controller('MyCtrl', function($scope, $http) {
 
   $scope.filteredList = [],
-    $scope.currentPage = 1,
-    $scope.numPerPage = 10,
-    $scope.maxSize = 5;
-
+  $scope.currentPage = 1,
+  $scope.numPerPage = 10,
+  $scope.maxSize = 5;
   $scope.sortType = 'population'; // set the default sort type
   $scope.sortReverse = true; // set the default sort order
   $scope.searchCountry = ''; // set the default search/filter term
