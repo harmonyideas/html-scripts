@@ -10,7 +10,7 @@
 * 1 1/2 tsp. sugar or honey
 * 1 1/4 tsp. salt
 * 1 tsp. garlic powder
-* 1 TBsp. Olive Oil
+* 1 Tbsp. Olive Oil
 * 240g water (about 1 1/4 cups)
 
 # Pretzel Dipping Solution
