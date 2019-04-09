@@ -26,7 +26,7 @@
 # Instructions
 1. Place all the dry ingredients in a bowl and mix until well-combined. Knead by hand or in a mixer for about 5 minutes until you have a smooth, soft dough.
 
-2. Place the dough aside and allow to rest in a covered bowl.  Prepare the solution by boiling the water in a large pot and mixing the baking soda until fully dissolved.  
+2. Place the dough aside and allow to rest (about 30min) in a covered bowl.  Prepare the solution by boiling the water in a large pot and mixing the baking soda until fully dissolved.  
 
 3. Set the solution aside and allow to cool to about lukeworm temperature.
 
