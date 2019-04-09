@@ -18,7 +18,7 @@
 * 4 tablespoons baking soda
 
 # Toppings/Stuffing
-* Chedder Cheese (Cubed)
+* Cheddar Cheese (Cubed)
 * Pepperoni (thin sliced)
 * 1 Egg White
 * Kosher course salt
