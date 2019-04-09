@@ -34,9 +34,9 @@
 
 5. Divide the dough into 8 pieces and allow to rest for about 5 min.
 
-6. Roll each piece into the shape of a mini pizza pie and stuff each one with cheese and pepperoni toppings.
+6. Roll each piece into the shape of a mini pizza pie and place the cheese and pepperoni toppings in the center.
 
-7. Fold the dough into a tight ball and make sure there are no opening for the toppings to seep out.
+7. Fold the dough into a tight ball and make sure there are no openings for the toppings to seep out.
 
 8. Place each pizza ball into the solution making sure to submerge the entire ball.
 
