@@ -2,7 +2,7 @@
 
 ## Recipe #1
 
-## Stuffed Chedder and Pepperoni Pretzel Balls
+## Stuffed Cheddar and Pepperoni Pretzel Balls
 
 # Pretzel Ball Dough
 * 400g bread flour
