@@ -38,7 +38,7 @@
 
 7. Fold the dough into a tight ball and make sure there are no opening for the toppings to seep out.
 
-8. Place each pizza ball into the solution making sure to cover the entire ball.
+8. Place each pizza ball into the solution making sure to submerge the entire ball.
 
 9. Allow pizza balls to dry for about 5 min. and apply the egg wash.
 
