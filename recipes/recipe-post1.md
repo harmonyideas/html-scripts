@@ -9,7 +9,7 @@
 * 2 1/4 tsp. active dry yeast
 * 1 1/2 tsp. sugar or honey
 * 1 1/4 tsp. salt
-* 1 tsp. garlic powder
+* 1 tsp. garlic powder (optional)
 * 1 Tbsp. Olive Oil
 * 240g water (about 1 1/4 cups)
 
