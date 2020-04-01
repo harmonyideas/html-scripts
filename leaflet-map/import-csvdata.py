@@ -22,7 +22,6 @@ with open(file_local, 'r') as f:
     data = json.load(f)
 
 for i, updaterow in covid19_df.iterrows():
-    #print updaterow['FIPS']
     for row in data['features']:
         if (row['properties']['NAME'] == updaterow['Admin2']):
             row['properties']['COVID19_CASES'] = updaterow['Confirmed']
@@ -30,4 +29,4 @@ for i, updaterow in covid19_df.iterrows():
         
 
 with open(file_www, 'w+') as f:
-    json.dump(data, f, indent=2)
+    json.dump(data, f, separators=(',', ":"))
