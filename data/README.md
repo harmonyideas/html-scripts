@@ -5,6 +5,7 @@ FileName      | Description
 ------------- | -------------  
 congress-legislators.jsons | JSON data file containing list of US Senators and Representatives.
 njcounties.json | geoJSON data file for NJ Counties including COVID-19 information.
+population-by-country | JSON data file containing countries and their population.
 
 
 
