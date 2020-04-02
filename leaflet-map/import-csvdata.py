@@ -4,7 +4,6 @@ import pandas as pd
 import json
 import sys
 import datetime 
-from datetime import timedelta
 import pytz
 
 file_date = datetime.date.strftime(datetime.datetime.now(pytz.timezone('US/Eastern')), "%m-%d-%Y")
