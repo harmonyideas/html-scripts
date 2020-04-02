@@ -8,7 +8,7 @@ from datetime import timedelta
 import pytz
 
 file_date = datetime.date.strftime(datetime.datetime.now(pytz.timezone('US/Eastern')), "%m-%d-%Y")
-url = 'https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_daily_reports/%s' % file_date
+url = 'https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_daily_reports/%s.csv' % file_date
 try:
     response = urllib2.urlopen(url)
 except urllib2.URLError as err:
@@ -21,11 +21,11 @@ file_www = '/var/www/html/public/map/njcounties.json'
 with open(file_local, 'r') as f:
     data = json.load(f)
 
-for i, updaterow in covid19_df.iterrows():
+for updaterow in covid19_df.itertuples():
     for row in data['features']:
-        if (row['properties']['NAME'] == updaterow['Admin2']):
-            row['properties']['COVID19_CASES'] = updaterow['Confirmed']
-            row['properties']['COVID19_DEATHS'] = updaterow['Deaths']
+        if (row['properties']['NAME'] == updaterow.Admin2):
+            row['properties']['COVID19_CASES'] = updaterow.Confirmed
+            row['properties']['COVID19_DEATHS'] = updaterow.Deaths
         
 
 with open(file_www, 'w+') as f:
