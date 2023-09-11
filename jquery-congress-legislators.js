@@ -1,12 +1,40 @@
 // Global JSON array
 var dataArray = [];
-var table = $("#details").DataTable();
+var table = $("#details").DataTable(
+    {
+        "columnDefs": [
+            {
+                "targets": -1,
+                "defaultContent": "<i>Unavailable</i>"
+            }
+        ],
+        "columns": [
+            null,
+            null,
+            null,
+            null,
+            null,
+            {
+                "defaultContent": '<i>Unavailable</i>'
+            },
+            {
+                fnCreatedCell: function (nTd, sData, oData, iRow, iCol) {
+                    if (oData[5]) {
+                        $(nTd).html("<a href='https://www.c-span.org/person/?" + oData[5] + "'>CSPAN link</a>");
+                        console.log(oData[5]);
+                    }
+
+                }
+            },
+        ]
+    }
+);
 
 function loadJSON(callback) {
     var xobj = new XMLHttpRequest();
     xobj.overrideMimeType("application/json");
     xobj.open('GET', 'data/congress-legislators.json', true);
-    xobj.onreadystatechange = function() {
+    xobj.onreadystatechange = function () {
         if (xobj.readyState == 4 && xobj.status == "200") {
             // Required use of an anonymous callback as .open will NOT return a value but simply returns undefined in asynchronous mode
             callback(xobj.responseText);
@@ -14,13 +42,13 @@ function loadJSON(callback) {
     };
     xobj.send(null);
 }
-loadJSON(function(response) {
+loadJSON(function (response) {
     dataArray = JSON.parse(response);
     var statesArray = [];
     var filterArray = [];
 
     // Create array to hold both abbreviated and full state names
-    $.each(dataArray[0].states, function(i, item) {
+    $.each(dataArray[0].states, function (i, item) {
         var states = [
             [i],
             [item]
@@ -33,29 +61,40 @@ loadJSON(function(response) {
     var $stateDropDown = $("#DropDown_State");
 
     // Build the list of US states for user to select
-    $.each(statesArray, function(i, item) {
+    $.each(statesArray, function (i, item) {
         $stateDropDown.append('<option value="' + item[0] + '">' + item[1] + '</option>');
     });
 
     // Return senator/representative term information based on state selected
-    $stateDropDown.change(function() {
+    $stateDropDown.change(function () {
         var selectedstate = this.value;
         //filter based on selected state.
-        filterArray = jQuery.grep(dataArray, function(item, i) {
+        filterArray = jQuery.grep(dataArray, function (item, i) {
             return item.terms[0].state == selectedstate;
         });
         updateTable(filterArray);
     });
 })
 // Update the datatable element with array data
-updateTable = function(collection) {
+updateTable = function (collection) {
     table.clear();
     for (var i = 0; i < collection.length; i++) {
         table.row.add([collection[i].name.official_full,
-            collection[i].terms[collection[i].terms.length - 1].start,
-            collection[i].terms[collection[i].terms.length - 1].end,
-            collection[i].terms[collection[i].terms.length - 1].type,
-            collection[i].terms[collection[i].terms.length - 1].party
+        collection[i].terms[collection[i].terms.length - 1].start,
+        collection[i].terms[collection[i].terms.length - 1].end,
+        collection[i].terms[collection[i].terms.length - 1].type,
+        collection[i].terms[collection[i].terms.length - 1].party,
+        collection[i].id.cspan
         ]).draw(true);
     }
 }
+
+$('#details').delegate("tr.rows", "click", function () {
+    alert("Click!");
+});
+
+$('#details').on('click', 'td', function (e) {
+    var table = $('#details').DataTable();
+    let data = table.row(e.target.closest('tr')).data();
+})
+
