@@ -18,7 +18,7 @@ var map = L.map('map', {
 //});
 
 // load a tile layer
-L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
+L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=', {
     minZoom: 4,
     maxZoom: 8,
     attribution: 'Map data © <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
@@ -177,16 +177,7 @@ function layerSelect(a) {
 $('#select-box1').change(function() {
     layerSelect(this.value);
 });
-mike @www1: /var/www / html / harmonyideas.com / map$ / props.COUNTY_STATE -
-    bash: /props.COUNTY_STATE: No such file or directory
-mike @www1: /var/www / html / harmonyideas.com / map$ ls
-index2.html index.html map2.js map2.js.old map.css map.js map.js.old njcounties.json njcounties.json.old usacounties.json
-mike @www1: /var/www / html / harmonyideas.com / map$ vi map2.js
-mike @www1: /var/www / html / harmonyideas.com / map$ vi map2.js
-mike @www1: /var/www / html / harmonyideas.com / map$ sudo vi map2.js
-mike @www1: /var/www / html / harmonyideas.com / map$ sudo vi map2.js
-mike @www1: /var/www / html / harmonyideas.com / map$ sudo vi map2.js
-mike @www1: /var/www / html / harmonyideas.com / map$ cat map2.js
+
 // initialize the selection box
 // initialize the map
 var geojson;
