@@ -1,31 +1,33 @@
 // Global JSON array
 var dataArray = [];
-// Setup DataTable and sort by Rank
+
+// Create a DataTable element
 var table = $("#details").DataTable({
-    "order": [
-        [0, "asc"]
-    ]
+  order: [[0, "asc"]],
 });
 
+// Load the JSON data
 function loadJSON(callback) {
-    var xobj = new XMLHttpRequest();
-    xobj.overrideMimeType("application/json");
-    xobj.open('GET', 'data/population-by-country.json', true);
-    xobj.onreadystatechange = function() {
-        if (xobj.readyState == 4 && xobj.status == "200") {
-            // Required use of an anonymous callback as .open will NOT return a value but simply returns undefined in asynchronous mode
-            callback(xobj.responseText);
-        }
-    };
-    xobj.send(null);
+  var xhr = new XMLHttpRequest();
+  xhr.open("GET", "data/population-by-country.json");
+  xhr.onload = function () {
+    if (xhr.status === 200) {
+      callback(xhr.responseText);
+    }
+  };
+  xhr.send();
 }
 
-loadJSON(function(response) {
-    dataArray = JSON.parse(response);
-    for (var i = 0; i < dataArray.length; i++) {
-        table.row.add([dataArray[i].Rank,
-            dataArray[i].country,
-            dataArray[i].population
-        ]).draw(true);
-    }
-})
+// Populate the DataTable with the JSON data
+function populateTable(data) {
+  table.clear();
+  for (var i = 0; i < data.length; i++) {
+    table.row.add([data[i].Rank, data[i].country, data[i].population]).draw(true);
+  }
+}
+
+// Load the JSON data and populate the table
+loadJSON(function (response) {
+  dataArray = JSON.parse(response);
+  populateTable(dataArray);
+});
