@@ -60,12 +60,21 @@ info.update = function(props) {
 function buildDataTable(data) {
     var table = $('#datatable1').DataTable({
         "data": data.features,
-        "columns": [
-	    { "data": "properties.NAME" },
-            { "data": "properties.POPULATION" },
-            { "data": "properties.POP_DENSITY" },
-            { "data": "properties.COVID19_CASES" },
-            { "data": "properties.COVID19_DEATHS" },
+        "columns": [{
+                "data": "properties.NAME"
+            },
+            {
+                "data": "properties.POPULATION"
+            },
+            {
+                "data": "properties.POP_DENSITY"
+            },
+            {
+                "data": "properties.COVID19_CASES"
+            },
+            {
+                "data": "properties.COVID19_DEATHS"
+            },
         ]
     });
     $('#datatable1 tbody').on('click', 'tr', function() {
@@ -114,16 +123,16 @@ function buildLegend() {
     legendinfo_div.innerHTML = labels.join('<br>');
 }
 
-// get color depending on population density value
-function getColor(d) {
-    return d > 1000 ? '#800026' :
-        d > 500 ? '#BD0026' :
-        d > 400 ? '#E31A1C' :
-        d > 300 ? '#FC4E2A' :
-        d > 200 ? '#FD8D3C' :
-        d > 100 ? '#FEB24C' :
-        d > 0 ? '#FED976' :
-        '#FFEDA0';
+function getColor(populationDensity) {
+    // Returns a color depending on the population density value.
+
+    // The color is calculated by dividing the population density by 100 and then rounding it to the nearest integer.
+    // This value is then used to select a color from a list of colors.
+
+    const colorIndex = Math.floor(populationDensity / 10 ** 9);
+    const colors = ['#800026', '#BD0026', '#E31A1C', '#FC4E2A', '#FD8D3C', '#FEB24C', '#FED976', '#FFEDA0'];
+    console.log(colors[colorIndex]);
+    return colors[colorIndex];
 }
 
 // Style layers 
@@ -172,16 +181,16 @@ function onEachFeature(feature, layer) {
     });
 }
 
-// Fire click event and zoom to polygon  
-function layerSelect(a) {
+function layerSelect(layerId) {
+    // Zooms to the polygon of the selected layer.
+
     if (lastClickedLayer) {
         geojson.resetStyle(lastClickedLayer);
     }
-    var layer = map._layers[a];
-    layer.fire('click'); // 'clicks' on state name from search
+    const layer = map._layers[layerId];
+    layer.fire('click');
     lastClickedLayer = layer;
 }
-
 
 // Setup Custom Controls
 buildSelect();
