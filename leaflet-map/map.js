@@ -1,57 +1,201 @@
-import urllib.request
-import gzip
-from io import BytesIO
-import pandas as pd
-import json
-import sys
-from datetime import datetime,timedelta
-import pytz
+// initialize the selection box
+// initialize the map
+var geojson;
+var lastClickedLayer;
+var njcounties = ["Atlantic", "Bergen", "Burlington", "Camden", "Cape May", "Cumberland", "Essex",
+    "Gloucester", "Hudson", "Hunterdon", "Mercer", "Middlesex", "Monmouth",
+    "Morris", "Ocean", "Passaic", "Salem", "Somerset", "Sussex", "Union",
+    "Warren"
+];
 
-def download_covid19_data(file_date):
-  """Downloads the COVID-19 data for the given date.
+// Set boundry for NorthWest and SouthEast NJ map coordinates
+bounds = new L.LatLngBounds(new L.LatLng(41.58, -75.800), new L.LatLng(38.805, -73.263));
+var map = L.map('map', {
+    maxBounds: bounds,
+    maxBoundsViscosity: 1.0
+}).setView([40.44, -74.59], 8);
 
-  Args:
-    file_date: The date of the COVID-19 data to download.
+// Limit panning to the boundry set
+map.on('drag', function() {
+    map.panInsideBounds(bounds, {
+        animate: false
+    });
+});
 
-  Returns:
-    A Pandas DataFrame containing the COVID-19 data.
-  """
+// load a tile layer
+L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=', {
+    minZoom: 7,
+    maxZoom: 9,
+    attribution: 'Map data © <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
+        '<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+        'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+    id: 'mapbox/light-v9',
+    tileSize: 512,
+    zoomOffset: -1
+}).addTo(map);
 
-  url = f"https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_daily_reports/{FILE_DATE}"
-  try:
-    response = urllib.request.urlopen(url)
-  except urllib.error.URLError as err:
-    print(err)
-    sys.exit(1)
+// load GeoJSON from an external file
+$.getJSON("njcounties.json", function(data) {
+    buildDataTable(data);
+    // add GeoJSON layer to the map once the file is loaded
+    geojson = L.geoJson(data, {
+        style: style,
+        onEachFeature: onEachFeature
+    }).addTo(map);
+});
 
-  covid19_data = pd.read_csv(response, iterator=True, chunksize=1000)
-  covid19_df = pd.concat([chunk[chunk['Province_State'] == 'New Jersey'] for chunk in covid19_data])
-  return covid19_df
 
-def update_njcounties_json(covid19_df, file_local, file_www):
-  """Updates the local njcounties.json file with the given COVID-19 data.
+// control that shows state info on hover
+var info = L.control();
 
-  Args:
-    covid19_df: A Pandas DataFrame containing the COVID-19 data.
-    file_local: The path to the local njcounties.json file.
-  """
+info.update = function(props) {
+    document.getElementById("infoName").innerHTML = '<b>' + props.NAME + '</b>';
+    document.getElementById("infoPopulation").innerHTML = '<b>' + props.POPULATION + '</b>';
+    document.getElementById("infoPopDensity").innerHTML = '<b>' + props.POP_DENSITY + '</b>';
+    document.getElementById("infoCovid19Cases").innerHTML = '<b>' + props.COVID19_CASES + '</b>';
+    document.getElementById("infoCovid19Deaths").innerHTML = '<b>' + props.COVID19_DEATHS + '</b>';
+};
 
-  with open(file_local, 'r') as f_local:
-    data = json.load(f_local)
+// Initialize JSON datatable
+function buildDataTable(data) {
+    var table = $('#datatable1').DataTable({
+        "data": data.features,
+        "columns": [{
+                "data": "properties.NAME"
+            },
+            {
+                "data": "properties.POPULATION"
+            },
+            {
+                "data": "properties.POP_DENSITY"
+            },
+            {
+                "data": "properties.COVID19_CASES"
+            },
+            {
+                "data": "properties.COVID19_DEATHS"
+            },
+        ]
+    });
+    $('#datatable1 tbody').on('click', 'tr', function() {
+        var rowdata = table.row(this).data();
+        if (rowdata.properties.NAME != "Unassigned") {
+            layerSelect(rowdata.properties.NAME);
+        }
+    });
+};
 
-  for updaterow in covid19_df.itertuples():
-    for row in data['features']:
-      if (int(float(row['properties']['GEOID'])) == updaterow.FIPS):
-        row['properties']['COVID19_CASES'] = updaterow.Confirmed
-        row['properties']['COVID19_DEATHS'] = updaterow.Deaths
+// Initialize the drop down
+function buildSelect() {
+    var options_str = "";
+    for (var i = 0, len = njcounties.length; i < len; i++) {
+        options_str += '<option value="' + njcounties[i] + '">' + njcounties[i] + '</option>';
+    }
+    var options_div = document.getElementById("selectlayer");
+    options_div.innerHTML += '<select id="select-box1" class="select-box"><option>New Jersey</option>' +
+        options_str + '</select>';
+    L.DomEvent.disableClickPropagation(options_div); // Enable dropdown to work with mobile
+    options_div.firstChild.onmousedown = options_div.firstChild.ondblclick = L.DomEvent.stopPropagation;
+}
 
-  with open(file_www, 'w+') as f_www:
-    json.dump(data, f_www, separators=(',', ":"))
+// Initialize the map legend
+function buildLegend() {
+    var legendinfo_div = document.getElementById("legendinfo");
+    var grades = [0, 50, 100, 200, 300, 400, 500];
+    var labels = ['<strong>Confirmed COVID-19 Cases</strong>'];
+    var from;
+    var to;
 
-#file_date = datetime.datetime.now(pytz.timezone('US/Eastern'))
-#file_date -= datetime.timedelta(days=1)
-#file_date = file_date.strftime("%m-%d-%Y") + '.csv'
-FILE_DATE = '03-09-2023.csv'
+    // loop through our density intervals and generate a label with a colored square for each interval
+    for (var i = 0; i < grades.length; i++) {
+        from = grades[i];
+        to = grades[i + 1] - 1;
 
-covid19_df = download_covid19_data(FILE_DATE)
-update_njcounties_json(covid19_df, '/usr/local/bin/www-scripts/njcounties.json', '/var/www/html/harmonyideas.com/map/njcounties.json')
+        legendinfo_div.innerHTML +=
+            '<i style="background:' + getColor(grades[i] + 1) + '"></i> ' +
+            grades[i] + (grades[i + 1] ? '&ndash;' + grades[i + 1] + '<br>' : '+');
+
+        labels.push(
+            '<i style="background:' + getColor(from + 1) + '"></i> ' +
+            from + (to ? '&ndash;' + to : '+'));
+
+    }
+    legendinfo_div.innerHTML = labels.join('<br>');
+}
+
+function getColor(populationDensity) {
+    // Returns a color depending on the population density value.
+
+    // The color is calculated by dividing the population density by 100 and then rounding it to the nearest integer.
+    // This value is then used to select a color from a list of colors.
+
+    const colorIndex = Math.floor(populationDensity / 10 ** 9);
+    const colors = ['#800026', '#BD0026', '#E31A1C', '#FC4E2A', '#FD8D3C', '#FEB24C', '#FED976', '#FFEDA0'];
+    return colors[colorIndex];
+}
+
+// Style layers 
+function style(feature) {
+    return {
+        weight: 2,
+        opacity: 1,
+        color: 'white',
+        dashArray: '3',
+        fillOpacity: 0.7,
+        fillColor: getColor(feature.properties.COVID19_CASES)
+    };
+}
+
+function highlightFeature(e) {
+    var layer = e.target;
+    layer.setStyle({
+        weight: 3,
+        color: '#404040',
+        dashArray: '',
+        fillOpacity: 0.7
+    });
+    info.update(layer.feature.properties);
+
+    if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
+        layer.bringToFront();
+    }
+}
+
+function resetHighlight(e) {
+    geojson.resetStyle(e.target);
+    //  info.update(layer.feature.properties);
+}
+
+function zoomToFeature(e) {
+    highlightFeature(e);
+    map.fitBounds(e.target.getBounds());
+}
+
+function onEachFeature(feature, layer) {
+    layer._leaflet_id = feature.properties.NAME;
+    layer.on({
+        mouseover: highlightFeature,
+        mouseout: resetHighlight,
+        click: zoomToFeature,
+    });
+}
+
+function layerSelect(layerId) {
+    // Zooms to the polygon of the selected layer.
+
+    if (lastClickedLayer) {
+        geojson.resetStyle(lastClickedLayer);
+    }
+    const layer = map._layers[layerId];
+    layer.fire('click');
+    lastClickedLayer = layer;
+}
+
+// Setup Custom Controls
+buildSelect();
+//buildLegend();
+
+//Setup listener events 
+$('#select-box1').change(function() {
+    layerSelect(this.value);
+});
