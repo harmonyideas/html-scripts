@@ -18,7 +18,7 @@ var map = L.map('map', {
 //});
 
 // load a tile layer
-L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=', {
+L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
     minZoom: 4,
     maxZoom: 8,
     attribution: 'Map data © <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
@@ -56,7 +56,6 @@ info.update = function(props) {
 };
 
 function buildDataTable(data) {
-    console.log("TESTING_BUILDDATATABLE");
     var table = $('#datatable1').DataTable({
         "data": data.features,
         "deferRender": true,
