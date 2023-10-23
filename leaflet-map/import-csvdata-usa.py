@@ -1,24 +1,7 @@
 import urllib.request
-import gzip
-from io import BytesIO
 import pandas as pd
 import json
 import sys
-
-
-def compress_to_string(input_file):
-    """
-    read the given open file, compress the data and return it as string.
-    """
-    stream = BytesIO()
-    compressor = gzip.GzipFile(fileobj=stream, mode="w")
-    while True:  # until EOF
-        chunk = input_file.read(8192)
-        if not chunk:  # EOF?
-            compressor.close()
-            return stream.getvalue()
-        compressor.write(chunk)
-
 
 def download_covid19_data(f_date):
     """Downloads the COVID-19 data for the given date.
