@@ -2,8 +2,6 @@ import urllib.request
 import pandas as pd
 import json
 import sys
-from datetime import datetime,timedelta
-import pytz
 
 def download_covid19_data(file_date):
   """Downloads the COVID-19 data for the given date.
@@ -45,11 +43,7 @@ def update_njcounties_json(covid19_df, file_local, file_www):
 
   with open(file_www, 'w+') as f_www:
     json.dump(data, f_www, separators=(',', ":"))
-    
 
-#file_date = datetime.datetime.now(pytz.timezone('US/Eastern'))
-#file_date -= datetime.timedelta(days=1)
-#file_date = file_date.strftime("%m-%d-%Y") + '.csv'
 file_date = 'us-counties-2023.csv'
 
 covid19_df = download_covid19_data(file_date)
