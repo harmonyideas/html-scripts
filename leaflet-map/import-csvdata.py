@@ -1,24 +1,9 @@
 import urllib.request
-import gzip
-from io import BytesIO
 import pandas as pd
 import json
 import sys
 from datetime import datetime,timedelta
 import pytz
-
-def compressFileToString(inputFile):
-  """
-  read the given open file, compress the data and return it as string.
-  """
-  stream = BytesIO()
-  compressor = gzip.GzipFile(fileobj=stream, mode='w')
-  while True:  # until EOF
-    chunk = inputFile.read(8192)
-    if not chunk:  # EOF?
-      compressor.close()
-      return stream.getvalue()
-    compressor.write(chunk)
 
 def download_covid19_data(file_date):
   """Downloads the COVID-19 data for the given date.
@@ -60,7 +45,7 @@ def update_njcounties_json(covid19_df, file_local, file_www):
 
   with open(file_www, 'w+') as f_www:
     json.dump(data, f_www, separators=(',', ":"))
-    compressFileToString(f_www)
+    
 
 #file_date = datetime.datetime.now(pytz.timezone('US/Eastern'))
 #file_date -= datetime.timedelta(days=1)
