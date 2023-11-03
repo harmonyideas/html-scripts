@@ -3,7 +3,7 @@ Short web programming examples for learning the basics
 
 FileName      | Description
 ------------- | -------------  
-leaflet-map | Project to track coronavirus statistics for all of NJ counties
+leaflet-map | Project to track coronavirus statistics for all of NJ counties (map.js) and USA (map2.js)
 App.js  | Simple example of a React component for reading and displaying recipes written in markdown format. 
 angular-population-by-country.html | Basic front-end example for parsing a JSON data file using Angular.  View list of countries by population with search box and pagination.
 angular-population-by-country.js | javascript file for back-end Angular example
