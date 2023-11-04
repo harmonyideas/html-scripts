@@ -56,5 +56,5 @@ if __name__ == "__main__":
     update_usacounties_json(
         MY_DF,
         "/usr/local/bin/www-scripts/usacounties.json",
-        "/var/www/html/harmonyideas.com/map/usacounties.json",
+        "/var/www/html/map/usacounties.json",
     )
