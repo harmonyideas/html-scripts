@@ -23,16 +23,15 @@ map.on('drag', function() {
 });
 
 // load a tile layer
-L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=', {
+L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
     minZoom: 7,
     maxZoom: 9,
-    attribution: 'Map data © <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
-        '<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
-        'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+    attribution:'&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
     id: 'mapbox/light-v9',
     tileSize: 512,
     zoomOffset: -1
 }).addTo(map);
+
 
 // load GeoJSON from an external file
 $.getJSON("njcounties.json", function(data) {
