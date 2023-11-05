@@ -123,16 +123,20 @@ function buildLegend() {
     legendinfo_div.innerHTML = labels.join('<br>');
 }
 
-function getColor(populationDensity) {
+//Assign map color to county depending on number of covid-cases
+function getColor(covidCases) {
     // Returns a color depending on the population density value.
-
-    // The color is calculated by dividing the population density by 100 and then rounding it to the nearest integer.
     // This value is then used to select a color from a list of colors.
-
-    const colorIndex = Math.floor(populationDensity / 10 ** 9);
-    const colors = ['#800026', '#BD0026', '#E31A1C', '#FC4E2A', '#FD8D3C', '#FEB24C', '#FED976', '#FFEDA0'];
-    return colors[colorIndex];
+    return covidCases > 200000 ? '#800026' :
+        covidCases > 100000 ? '#BD0026' :
+        covidCases > 75000 ? '#E31A1C' :
+        covidCases > 55000 ? '#FC4E2A' :
+        covidCases > 250000 ? '#FD8D3C' :
+        covidCases > 15000 ? '#FEB24C' :
+        covidCases > 0 ? '#FED976' :
+        '#FFEDA0';
 }
+
 
 // Style layers 
 function style(feature) {
