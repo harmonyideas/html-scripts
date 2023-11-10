@@ -30,8 +30,9 @@ async function createStateList() {
   return statesArray;
 }
 
-// Update the datatable with a filtered list of legislators
+// Add a new row for each legislator in the filter array.
 async function updateTable(filterArray) {
+  // Clear the table before adding new rows.
   table.clear();
   for (const legislator of filterArray) {
     table.row.add([
