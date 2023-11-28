@@ -56,34 +56,28 @@ info.update = function(props) {
 };
 
 // Initialize JSON datatable
-function buildDataTable(data) {
-    var table = $('#datatable1').DataTable({
-        "data": data.features,
-        "columns": [{
-                "data": "properties.NAME"
-            },
-            {
-                "data": "properties.POPULATION"
-            },
-            {
-                "data": "properties.POP_DENSITY"
-            },
-            {
-                "data": "properties.COVID19_CASES"
-            },
-            {
-                "data": "properties.COVID19_DEATHS"
-            },
-        ]
-    });
-    $('#datatable1 tbody').on('click', 'tr', function() {
-        var rowdata = table.row(this).data();
-        if (rowdata.properties.NAME != "Unassigned") {
-            layerSelect(rowdata.properties.NAME);
-        }
-    });
-};
-
+const buildDataTable = (data) => {
+  const table = $('#datatable1').DataTable({
+    "data": data.features,
+    "columns": [
+      {
+        "data": "properties.NAME"
+      },
+      {
+        "data": "properties.POPULATION"
+      },
+      {
+        "data": "properties.POP_DENSITY"
+      },
+      {
+        "data": "properties.COVID19_CASES"
+      },
+      {
+        "data": "properties.COVID19_DEATHS"
+      },
+    ]
+});
+    
 // Initialize the drop down
 function buildSelect() {
     var options_str = "";
